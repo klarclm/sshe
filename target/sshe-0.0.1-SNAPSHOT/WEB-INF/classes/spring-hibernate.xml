@@ -101,7 +101,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 			<tx:method name="remove*" />
 			<tx:method name="repair" />
 			<tx:method name="deleteAndRepair" />
-
+            <tx:method name="reg" />
+            
 			<tx:method name="get*" propagation="SUPPORTS" />
 			<tx:method name="find*" propagation="SUPPORTS" />
 			<tx:method name="load*" propagation="SUPPORTS" />

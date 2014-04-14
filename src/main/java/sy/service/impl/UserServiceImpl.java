@@ -1,6 +1,8 @@
 package sy.service.impl;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -34,9 +36,23 @@ public class UserServiceImpl implements UserServiceI {
 	}
 	@Override
 	public Serializable save(Tuser t) {
-		this.usrDao.save(t);
+		usrDao.save(t);
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void reg(String name, String pwd) {
+		Tuser t = new Tuser();
+		t.setId(UUID.randomUUID().toString());
+		t.setName(name);
+		t.setPwd(pwd);
+		t.setCreatedatetime(new Date());
+		logger.info(name);
+		logger.info(pwd);
+		
+		usrDao.save(t);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

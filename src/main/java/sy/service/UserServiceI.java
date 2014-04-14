@@ -10,4 +10,7 @@ public interface UserServiceI {
 	
 	public Serializable save(Tuser t);
 
+	public void reg(String name, String pwd);
+
 }
+ 

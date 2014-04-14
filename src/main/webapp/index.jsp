@@ -23,25 +23,25 @@
 	type="text/css"></link>
 <script type="text/javascript" src="jslib/sy.Util.js"></script>
 <script type="text/javascript">
-	$('#index_regForm').form({
-		url : "",
-		onSubmit : function() {
-			// do some check
-			// return false to prevent submit;
-		},
-		success : function(data) {
-			alert(data)
-		}
-	});
-	$.extend($.fn.validatebox.defaults.rules, {
-		eqPwd : {
-			validator : function(value, param) {
-				console.info(param[0]);
-				console.info($(param[0]).val());
-				return value == $(param[0]).val();
+	$(function() {
+		$('#index_regForm').form({
+			url : "${pageContext.request.contextPath}/UserAction!reg.action",
+			onSubmit : function() {
+				// do some check
+				// return false to prevent submit;
 			},
-			message : 'pwd not eq'
-		}
+			success : function(r) {
+				var obj = jQuery.parseJSON(r);
+				if (obj.success)
+					$('#index_regDialog').dialog('close');
+				$.messager.show({
+					title : '提示',
+					msg : obj.msg,
+					timeout : 5000,
+					showType : 'slide'
+				});
+			}
+		});
 	});
 </script>
 </head>
@@ -64,7 +64,10 @@
 			buttons:[{
 				text:'regist',
 				iconCls:'icon-edit',
-				handler:function(){$('#index_regDialog').dialog('open');}
+				handler:function(){
+				$('#index_regForm').val('');
+				$('#index_regDialog').dialog('open');
+				}
 			},{
 				text:'Help',
 				iconCls:'icon-help',
@@ -93,20 +96,20 @@
 			<table>
 				<tr>
 					<th>注册名</th>
-					<td><input name="regName " class="easyui-validatebox"
+					<td><input name="name " class="easyui-validatebox"
 						data-options="required:true" missingMessage="need pram" />
 					</td>
 				</tr>
 				<tr>
 					<th>密码</th>
-					<td><input name="regPwd " class="easyui-validatebox"
+					<td><input name="pwd " class="easyui-validatebox"
 						data-options="required:true" />
 					</td>
 				</tr>
 				<tr>
 					<th>重复密码</th>
-					<td><input name="regRPwd " class="easyui-validatebox"
-						data-options="required:true, validType:'eqPwd[\'#index_regForm input[name=regPwd]\']'" />
+					<td><input name="rPwd " class="easyui-validatebox"
+						data-options="required:true, validType:'eqPwd[\'#index_regForm input[name=pwd]\']'" />
 					</td>
 				</tr>
 			</table>
