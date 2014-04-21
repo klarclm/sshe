@@ -38,8 +38,7 @@ public class Tuser implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Tuser(String id, String name, String pwd, Date createdatetime,
-			Date modifydatetime) {
+	public Tuser(String id, String name, String pwd, Date createdatetime, Date modifydatetime) {
 		this.id = id;
 		this.name = name;
 		this.pwd = pwd;
@@ -58,7 +57,7 @@ public class Tuser implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "NAME", unique = true, nullable = false, length = 36)
+	@Column(name = "NAME", unique = true, nullable = false, length = 100)
 	public String getName() {
 		return this.name;
 	}
@@ -67,7 +66,7 @@ public class Tuser implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "PWD", nullable = false, length = 20)
+	@Column(name = "PWD", nullable = false, length = 32)
 	public String getPwd() {
 		return this.pwd;
 	}

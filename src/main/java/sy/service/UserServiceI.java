@@ -1,16 +1,11 @@
 package sy.service;
 
-import java.io.Serializable;
-
-import sy.model.Tuser;
+import sy.pageModel.User;
 
 public interface UserServiceI {
 
-	public void test();
-	
-	public Serializable save(Tuser t);
+	public void save(User user);
 
-	public void reg(String name, String pwd);
+	public User login(User user);
 
 }
- 

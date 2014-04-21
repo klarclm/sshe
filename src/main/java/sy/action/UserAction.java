@@ -1,74 +1,64 @@
 package sy.action;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-
 import org.apache.log4j.Logger;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
-import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
-
-import sy.model.Tuser;
+import sy.pageModel.Json;
+import sy.pageModel.User;
 import sy.service.UserServiceI;
 
-@ParentPackage("basePackage")
+import com.opensymphony.xwork2.ModelDriven;
+
 @Namespace("/")
-@Action(value = "UserAction")
-public class UserAction {
-	/**	
-	 * Logger for this class
-	 */
+@Action(value = "userAction")
+public class UserAction extends BaseAction implements ModelDriven<User> {
+	private User user = new User();
+
+	@Override
+	public User getModel() {
+		return user;
+	}
+
 	private static final Logger logger = Logger.getLogger(UserAction.class);
 
-	private UserServiceI userservice;
-	
-	public UserServiceI getUserservice() {
-		return userservice;
+	private UserServiceI userService;
+
+	public UserServiceI getUserService() {
+		return userService;
 	}
 
 	@Autowired
-	public void setUserservice(UserServiceI userservice) {
-		this.userservice = userservice;
+	public void setUserService(UserServiceI userService) {
+		this.userService = userService;
 	}
 
-	public void test() {
-		logger.info("visit useraction");
-		userservice.test();
-	}
-	public void addUser(){
-		Tuser t = new Tuser();
-		t.setId("2");
-		t.setName("cs2");
-		t.setCreatedatetime(new Date());
-		this.userservice.save(t);
-	}
-	public void reg(){
-	    String name = ServletActionContext.getRequest().getParameter("name");
-	    String pwd = ServletActionContext.getRequest().getParameter("pwd");
-	    String json = "";
-	    HashMap<String, Object> m = new HashMap<String, Object>();
+	public void reg() {
+		Json j = new Json();
 		try {
-			userservice.reg(name, pwd);
-			m.put("success", true);
-			m.put("msg", "注册成功");
+			userService.save(user);
+			j.setSuccess(true);
+			j.setMsg("注册成功！");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			m.put("success", true);
-			m.put("msg", "注册成功");
+			j.setMsg(e.getMessage());
 		}
-		try {
-			ServletActionContext.getResponse().getWriter().write(JSON.toJSONString(m));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		super.writeJson(j);
+
 	}
+
+	public void login() {
+		User u = userService.login(user);
+		Json j = new Json();
+		if (u != null) {
+			j.setSuccess(true);
+			j.setMsg("登陆成功！");
+		} else {
+			j.setMsg("登录失败，用户名或密码错误！");
+		}
+
+		super.writeJson(j);
+	}
+
 }
