@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="sshe1"
+  name="sshe"
   id="myeclipse.1351321614474"
   context-root="/sshe"
   j2ee-spec="6.0"
-  archive="sshe1.war">
+  archive="sshe.war">
   <attributes>
     <attribute name="webrootdir" value="src/main/webapp" />
   </attributes>
