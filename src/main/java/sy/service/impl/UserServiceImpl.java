@@ -1,7 +1,9 @@
 package sy.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import sy.dao.BaseDaoI;
 import sy.model.Tuser;
+import sy.pageModel.DataGrid;
 import sy.pageModel.User;
 import sy.service.UserServiceI;
 import sy.util.Encrypt;
@@ -56,5 +59,21 @@ public class UserServiceImpl implements UserServiceI {
 			return user;
 		}
 		return null;
+	}
+	
+	public DataGrid dataGrid(User user) {
+		DataGrid dg = new DataGrid();
+		String hql = "from Tuser t ";
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<Tuser> l = userDao.find(hql, params, user.getPage(), user.getRows());
+		List<User> nl = new ArrayList<User>();
+		for (Tuser t : l) {
+			User u = new User();
+			BeanUtils.copyProperties(t, u);
+			nl.add(u);
+		}
+		dg.setTotal(userDao.count(hql, params));
+		dg.setRows(nl);
+		return dg;
 	}
 }

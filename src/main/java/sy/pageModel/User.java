@@ -4,11 +4,33 @@ import java.util.Date;
 
 public class User implements java.io.Serializable {
 
+	private int page;
+	private int rows;
+	
 	private String id;
 	private String name;
 	private String pwd;
 	private Date createdatetime;
 	private Date modifydatetime;
+
+	
+	
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
 
 	public String getId() {
 		return id;
